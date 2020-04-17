@@ -277,8 +277,8 @@ if [ "$BUILDMW" = "1" ]; then
                     -s rpm/geoclue-providers-hybris.spec || die
         fi
         # Additional MW for extra functionality on OnePlus 5(T) devices
-        if [[ "cheeseburger dumpling" = *"$DEVICE"* ]]; then
-            buildmw -u "https://github.com/sailfishos-oneplus5/triambience-daemon" || die
+        if [[ "enchilada fajita" = *"$DEVICE"* ]]; then
+            buildmw -u "https://github.com/sailfish-oneplus6/triambience-daemon" || die
             buildmw -u "https://github.com/sailfishos-oneplus5/onyx-triambience-settings-plugin" || die
             buildmw -u "https://github.com/sailfishos-oneplus5/gesture-daemon" || die
             buildmw -u "https://github.com/sailfishos-oneplus5/onyx-gesture-settings-plugin" || die

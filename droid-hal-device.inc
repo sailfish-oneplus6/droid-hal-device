@@ -922,7 +922,6 @@ done
 
 %files kernel -f kernel.files
 %defattr(644,root,root,-)
-%dir %attr(600,root,root) /boot
 
 %files kernel-modules
 %defattr(644,root,root,-)
@@ -942,7 +941,6 @@ done
 %if 0%{!?have_custom_img_recovery:1}
 %files img-recovery
 %defattr(644,root,root,-)
-%dir %attr(600,root,root) /boot
 /boot/hybris-recovery.img
 %endif
 

@@ -63,7 +63,8 @@
 #                      disables patch applying
 # have_vendor_src_for_obs:
 #                    include a separately packaged vendor source for OBS builds
-#
+# use_own_mounts:
+#                    Device provides own solution for mounting
 # Multi-line macros:
 # Such macros are defined in the .spec file as follows:
 
@@ -446,8 +447,10 @@ mkdir tmp/udev.rules
     %{android_root}/out/target/product/%{device}/system/vendor/ueventd.rc \
         > tmp/udev.rules/999-android-system.rules
 
-echo Building mount units
+# IF use_own_mounts is defined then the device uses it's own solution for mounting droid parts
 mkdir tmp/units
+%if 0%{!?use_own_mounts:1}
+echo Building mount units
 # Use the makefstab and tell it what mountpoints to skip. It will
 # generate .mount units which will be part of local-fs.target
 # skip various mounts which are not wanted (This is just in case they creep in)
@@ -461,6 +464,7 @@ shopt -u nullglob
 
 echo Fixing up mount points
 hybris/hybris-boot/fixup-mountpoints %{device} tmp/units/*
+%endif
 
 echo Creating hw-release
 # based on http://www.freedesktop.org/software/systemd/man/os-release.html
@@ -613,7 +617,9 @@ ln -s ../system/lib/{liblog.so,libcutils.so} $RPM_BUILD_ROOT%{_libexecdir}/droid
 ln -s ../system/lib64/{liblog.so,libcutils.so} $RPM_BUILD_ROOT%{_libexecdir}/droid-hybris/lib64-dev-alog/.
 %endif
 
+%if 0%{!?use_own_mounts:1}
 cp -a tmp/units/*.mount $RPM_BUILD_ROOT/%{_unitdir}
+%endif
 
 # Install the udev rules and supporting script
 cp -a tmp/udev.rules/* $RPM_BUILD_ROOT/lib/udev/rules.d/
